@@ -17,7 +17,9 @@ echo   3. MULTIPLICAR
 echo   4. DIVIDIR
 echo   5. VER HISTORIAL OPERACIONES
 echo   6. ABRIR LA CALCULADORA EN WINDOWS
-echo   7. SALIR
+echo   7. CONVERTIR NUMERO A BINARIO
+echo   8. ABRIR CALCULADORA EN NAVEGADOR
+echo   9. SALIR
 echo.
 set /p opcion=Selecciona una operacion a realizar: 
 
@@ -27,7 +29,9 @@ if %opcion%==3 goto multiplicar
 if %opcion%==4 goto dividir
 if %opcion%==5 goto ver_historial
 if %opcion%==6 goto abrir_calc
-if %opcion%==7 goto salir
+if %opcion%==7 goto dec_binario
+if %opcion%==8 goto calc_linea
+if %opcion%==9 goto salir
 
 echo Opcion no valida
 pause >nul
@@ -83,7 +87,7 @@ if %num2%==0 (
     pause
     goto inicio
 ) 
-    set /a result=%num1%/%num2%
+set /a result=%num1%/%num2%
     echo                                ----------
     echo Resultado:                         %result%
     echo (%date% %time%) %num1% / %num2% = %result% >> log.txt
@@ -114,6 +118,18 @@ if "%goOut%"=="s" taskkill /f /fi "WINDOWTITLE eq Calculadora"
 pause
 echo La calculadora se Windows se ha cerrado!
 goto inicio
+
+:dec_binario
+set /p num=Ingras un numero entero decimal: 
+set /a bin=num
+echo El numero entero decimal %num% en binario es %bin%
+pause
+goto inicio
+
+:calc_linea
+start https://www.google.com/search?q=calculadora+en+linea
+pause
+goto incio
 
 :salir
 echo Seguro que quieres salir?
