@@ -113,16 +113,26 @@ if "%eleccion%"=="r" (
 
 :abrir_calc
 start calc.exe
-set /p goOut=Pulsa la tecla 's' para cerrar la calculadora: 
-if "%goOut%"=="s" taskkill /f /fi "WINDOWTITLE eq Calculadora"
+set /p goout=Pulsa la tecla 's' para cerrar la calculadora: 
+if "%goout%"=="s" taskkill /f /fi "WINDOWTITLE eq Calculadora"
 pause
 echo La calculadora se Windows se ha cerrado!
 goto inicio
 
 :dec_binario
-set /p num=Ingras un numero entero decimal: 
-set /a bin=num
-echo El numero entero decimal %num% en binario es %bin%
+set /p num=Introduce un numero entero decimal: 
+set bin=2
+set "resultado="
+set "dectobin="
+:while
+if %num% GTR 0 (
+    set /a r=%num%%%bin%
+    set /a num=%decimal% / %bin%
+    set resultado=%r%%resultado%
+    goto :while
+)
+set dectobin=%resultado%
+echo El numero entero decimal %num% en binario es %dectobin%
 pause
 goto inicio
 
