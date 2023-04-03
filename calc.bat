@@ -9,7 +9,7 @@ echo *           CALCULADORA BASICA             *
 echo *                                          *
 echo ********************************************
 
-echo Operaciones básicas:
+echo Operaciones basicas:
 echo.
 echo   1. SUMAR
 echo   2. RESTAR
@@ -34,8 +34,6 @@ pause >nul
 goto incio
 
 set primerUso=true
-:guardarLog
-echo (%date% %time%) %num1% / %num2% = %result% >> log.txt
 
 if "%primerUso%"=="true" (
     echo Creando archivo de registro...
@@ -44,76 +42,89 @@ if "%primerUso%"=="true" (
 )
 
 :sumar
-set /p num1=Primer número:....................
-set /p num2=Segundo número:...................
+set /p num1=Primer numero:.................... 
+echo                                    +
+set /p num2=Segundo numero:................... 
 set /a result=%num1%+%num2%
-echo                                        ----------
-echo Resultado:                              %result%
-call :guardarLog
-pause >nul
+echo                                ----------
+echo Resultado:                         %result%
+echo (%date% %time%) %num1% + %num2% = %result% >> log.txt
+pause
 goto inicio
 
 :restar
-set /p num1=Primer número:.................... 
-set /p num2=Segundo número:................... 
+set /p num1=Primer numero:.................... 
+echo                                    -
+set /p num2=Segundo numero:................... 
 set /a result=%num1%-%num2%
-echo                                        ----------
-echo Resultado:                              %result%
-call :guardarLog
-pause >nul
+echo                                ----------
+echo Resultado:                         %result%
+echo (%date% %time%) %num1% - %num2% = %result% >> log.txt
+pause
 goto inicio
 
 :multiplicar
-set /p num1=Primer número:.................... 
-set /p num2=Segundo número:................... 
+set /p num1=Primer numero:.................... 
+echo                                    *
+set /p num2=Segundo numero:................... 
 set /a result=%num1%*%num2%
-echo                                        ----------
-echo Resultado:                              %result%
-call :guardarLog
-pause >nul
+echo                                ----------
+echo Resultado:                         %result%
+echo (%date% %time%) %num1% * %num2% = %result% >> log.txt
+pause
 goto inicio
 
 :dividir
-set /p num1=Primer número:.................... 
-set /p num2=Segundo número:...................
+set /p num1=Primer numero:.................... 
+echo                                    /
+set /p num2=Segundo numero:................... 
 if %num2%==0 (
     echo No se puede dividir entre cero.
-    pause >nul
+    pause
     goto inicio
-) else (
+) 
     set /a result=%num1%/%num2%
-    echo                                     ----------
-    echo Resultado:                           %result%
-    call :guardarLog
-    pause >nul
+    echo                                ----------
+    echo Resultado:                         %result%
+    echo (%date% %time%) %num1% / %num2% = %result% >> log.txt
+    pause
     goto inicio
-)
+
 
 :ver_historial
 type log.txt
-echo Pulsa cualquier tecla para ir al menu!
-pause >nul
-goto incio
+set /p eleccion=Escribe la letra 'd' para borrar el historial o la letra 'r' para volver al menu!
+if "%eleccion%"=="r" (
+    goto inicio
+) else (
+    if "%eleccion%"=="d" (
+        del log.txt
+        goto inicio
+    ) else (
+        echo Te has equivocado de letra. Vuelvelo a intentar!!
+        pause > nul
+        goto ver_historial
+    )
+)
 
 :abrir_calc
 start calc.exe
-echo Pulsa la tecla 's' cuando quieras cerrar la calculadora de windows
-set /p salir=s
-if "%salir%"=="s" (
-    taskkill /f /im calc.exe
-    echo La calculadora se Windows se ha cerrado!
-) else (
-    echo La tecla pulsada no es la s
-)
+set /p goOut=Pulsa la tecla 's' para cerrar la calculadora: 
+if "%goOut%"=="s" taskkill /f /fi "WINDOWTITLE eq Calculadora"
+pause
+echo La calculadora se Windows se ha cerrado!
+goto inicio
 
 :salir
-set /p opcion=Seguro que quieres salir?
+echo Seguro que quieres salir?
 echo.
 echo   1. Si
 echo   2. No
+echo.
+set /p option=(S/N)? 
 
-if %opcion%==1 exit
-if %opcion%==2 goto inicio
+if "%option%"=="s" exit
+if "%option%"=="n" goto inicio
 echo Opcion no valida
-pause >nul
+pause
 goto salir
